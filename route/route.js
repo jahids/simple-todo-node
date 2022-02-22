@@ -52,10 +52,31 @@ route.post("/all", async(req,res)=> {
 
 })
 
+
+
 // put totdo update
 route.put("/:id", async(req,res)=> {
+    await Todo.updateOne({_id : req.params.id},{
+        $set : {
+            status: 'active'
+        }
+    }, (err)=>{
+
+        if(err){
+            res.status(500).json({
+                message : "todo update problem "
+            })
+        }else{
+            res.status(200).json({
+                message : "todo updatetd"
+            })
+        }
+
+    })
 
 })
+
+
 
 // delete tot 
 route.delete("/:id", async(req,res)=> {
