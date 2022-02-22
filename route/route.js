@@ -10,6 +10,18 @@ const Todo = new mongoose.model("Todo" , todoSchema)
 
 // todo get router
 route.get("/", async(req,res)=> {
+    await Todo.find({status : "active"}, (err, data)=> {
+        if(err){
+            res.status(500).json({
+                message : "todo many inserted problem "
+            })
+        }else{
+            res.status(200).json({
+                result : data,
+                message : "todo Many data  succesfully"
+            })
+        }
+    })
 })
 
 // get a todo by id
@@ -80,6 +92,25 @@ route.put("/:id", async(req,res)=> {
 
 // delete tot 
 route.delete("/:id", async(req,res)=> {
+
+    await Todo.deleteOne({_id : req.params.id},{
+        $set : {
+            status: 'active'
+        }
+    }, (err)=>{
+
+        if(err){
+            res.status(500).json({
+                message : "todo not delete "
+            })
+        }else{
+            res.status(200).json({
+                message : "todo was deleted"
+            })
+        }
+
+    })
+
 
 })
 
